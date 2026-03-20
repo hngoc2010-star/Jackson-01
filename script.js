@@ -1,21 +1,23 @@
-let currentResponses = null;
-let isPro = false; // 👉 đổi true = mở full
+const input = document.getElementById("input");
+const result = document.getElementById("result");
 
-function findBestMatch(input) {
-  input = input.toLowerCase();
+let current = null;
+
+function findMatch(text) {
+  text = text.toLowerCase();
 
   let best = null;
-  let maxScore = 0;
+  let max = 0;
 
   fullData.forEach(item => {
     let score = 0;
 
     item.keywords.forEach(k => {
-      if (input.includes(k)) score++;
+      if (text.includes(k)) score++;
     });
 
-    if (score > maxScore) {
-      maxScore = score;
+    if (score > max) {
+      max = score;
       best = item;
     }
   });
@@ -29,23 +31,16 @@ function render(item) {
     return;
   }
 
-  currentResponses = item.responses;
+  current = item.responses;
 
   result.innerHTML = `
-    ${createCard("Soft", item.responses.soft)}
-    ${createCard("Firm", item.responses.firm)}
-    ${createCard("Strategic", item.responses.strategic)}
+    ${card("Soft", item.responses.soft)}
+    ${card("Firm", item.responses.firm)}
+    ${card("Strategic", item.responses.strategic)}
   `;
-
-  // lock PRO
-  if (!isPro) {
-    document.getElementById("lock").style.display = "block";
-  } else {
-    document.getElementById("lock").style.display = "none";
-  }
 }
 
-function createCard(title, text) {
+function card(title, text) {
   return `
     <div class="card">
       <h3>${title}</h3>
@@ -60,20 +55,20 @@ function copyText(text) {
 }
 
 function copyAll() {
-  if (!currentResponses) return;
+  if (!current) return;
 
   const all = `
-Soft: ${currentResponses.soft}
+Soft: ${current.soft}
 
-Firm: ${currentResponses.firm}
+Firm: ${current.firm}
 
-Strategic: ${currentResponses.strategic}
+Strategic: ${current.strategic}
   `;
 
   navigator.clipboard.writeText(all);
 }
 
 input.addEventListener("input", () => {
-  const match = findBestMatch(input.value);
+  const match = findMatch(input.value);
   render(match);
 });
