@@ -21,7 +21,22 @@ textarea {
   text-align: right;
   margin-bottom: 10px;
 }
+.suggestions {
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
 
+.suggestion-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: #f5f5f5;
+}
 button {
   padding: 8px 12px;
   border: none;
